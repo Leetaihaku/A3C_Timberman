@@ -136,6 +136,28 @@ def test_sequence(cmd_test_init):
     return
 
 
+def a3c_sequence(mode, cmd_init, episode):
+    """학습 진행"""
+    # 학습 하이퍼파라미터 읽어오기
+    epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size = lr_params_read(mode)
+    # 디렉토리 변경 & cmd → 아나콘다 활성화 & 실행 & 학습결과 반환데이터 수령
+    # (Windows bat. file execute)
+    # 불확실성 값 → 실행 배치파일 내 전달
+    ready_exeute_bat(mode, cmd_init, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size)
+    # 서브프로세스 실행
+    data = subprocess.run(MODEL_PATH + (DETECT_BAT_EXE if mode else DETECT_BAT_EXE_TRANSFER), shell=True, capture_output=True, text=True)
+    # 반환데이터 리스트화
+    print(data)
+    data = data.stdout.split('\n')
+    # 학습데이터 리스트화
+    data = list(map(float, data[-2].split(' ')))
+    # 학습결과 및 종료메세지 출력
+    print_learning_result(data, epsilon, learning_rate, episode)
+    # 학습정보 갱신 및 저장
+    update_lr_params_write(mode, epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size)
+    return
+
+
 def init_lr_params_write(mode, epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size):
     """학습 하이퍼파라미터 최초 저장"""
     with open(MODEL_PATH + (INFO if mode else INFO_TRANSFER), 'w') as learning_info:
@@ -338,15 +360,11 @@ def a3c(mode):
     epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size = new_or_load(mode)
     # 학습 하이퍼파라미터 저장
     init_lr_params_write(mode, epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size)
-    # 학습 그래프 모듈 실행 & 불확실성 감소 값
-    tensorboard = SummaryWriter(log_dir='runs/a3c')
     # 실행 배치파일 전달명령어 원본 추출
     init = cmd_init(mode)
     # 학습 진행
     for episode in range(epoch_origin - epoch + 1, epoch_origin + 1):
-        learning_sequence(mode, init, tensorboard, episode)
+        a3c_sequence(mode, init, episode)
         if episode % 10 == 0:
             reboot_program() if episode % 50 == 0 else reboot_game()
-    # 플로팅 인스턴스 제거
-    tensorboard.close()
     return

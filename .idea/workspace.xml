@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5cc709d0-a44a-45ba-b7e1-c727113d5074" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/Convert_TXT_to_XML.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/cfg/timberman.cfg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/cy_yolo2_findboxes.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
@@ -12,22 +10,11 @@
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/cy_yolo_findboxes.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/A3C_Timberman.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/A3C_Timberman.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_exe.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_exe.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_exe_test.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_exe_test.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_exe_transfer.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_exe_transfer.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_test.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_test.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_transfer.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_transfer.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/Main_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Main_Header.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/RL_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/RL_Header.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/Server_Global.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Server_Global.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/Timberman.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Timberman.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/darkflow" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/darkflow" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/detect_5.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/detect_5.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -8,10 +8,14 @@ import torch
 import Main_Header as Main
 import RL_Header as RL
 
+from torch.utils.tensorboard import SummaryWriter
 
+# 호스트, 포트번호
 HOST = '210.110.39.196'
 PORT = 9999
+# 글로벌 에이전트, 글로벌 플로팅 모듈 인스턴스
 GLOBAL_AGENT = RL.Agent(0.001, 0.001, 0.001, 32, 1, 8)
+tensorboard = SummaryWriter(log_dir='runs/a3c')
 
 
 class data:
@@ -35,6 +39,11 @@ def handle_worker(client_socket, address):
             state, v_value, mini_action, reward, advantage, q_value = GLOBAL_AGENT.Variable_ready_for_TD_N_Parallel()
             GLOBAL_AGENT.Update_by_TD(state, v_value, mini_action, reward, advantage, q_value)
             GLOBAL_AGENT.Batch.popleft()
+        # 에피소드 종료 시, 플로팅
+        tensorboard.add_scalar(GLOBAL_AGENT.Actor_loss_stack/GLOBAL_AGENT.Step_stack)
+        tensorboard.add_scalar(GLOBAL_AGENT.Critic_loss_stack/GLOBAL_AGENT.Step_stack)
+        tensorboard.add_scalar(GLOBAL_AGENT.Reward_stack/GLOBAL_AGENT.Step_stack)
+        tensorboard.close()
     # 진행 시, 배치사이즈 한도 내에서 업데이트 진행
     elif len(GLOBAL_AGENT.Batch) == GLOBAL_AGENT.Batch_size:
         state, v_value, mini_action, reward, advantage, q_value = GLOBAL_AGENT.Variable_ready_for_TD_N_Parallel()
