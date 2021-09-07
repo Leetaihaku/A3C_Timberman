@@ -10,7 +10,7 @@ from torch.utils.tensorboard import SummaryWriter
 ADDRESS_BlueStack = "C:\\Program Files\\BlueStacks\\Bluestacks.exe"
 # 이미지, 디바이스, 감지모델 경로
 WEBCAM_PATH = DEVICE_PATH = '0'
-MODEL_PATH = "C:\\RL_Timberman\\YOLOv3\\"
+MODEL_PATH = "C:\\A3C_Timberman\\YOLOv3\\"
 BEST = 'best.pt'
 
 # 학습모델, 배치파일 경로(훈련용)
@@ -33,6 +33,11 @@ TBC_TRANSFER = 'TBC_TRANSFER.pt'
 DETECT_BAT_TRANSFER = 'Detect_transfer.bat'
 DETECT_BAT_EXE_TRANSFER = 'Detect_exe_transfer.bat'
 INFO_TRANSFER = 'Transfer_info.txt'
+
+# 학습모델, 배치파일 경로(분산강화학습용)
+TBA_A3C = 'TBA_A3C.pt'
+TBC_A3C = 'TBC_A3C.pt'
+
 
 
 def new_or_load(mode):
@@ -324,4 +329,24 @@ def tester():
         test_sequence(init)
         if episode % 10 == 0:
             reboot_program() if episode % 50 == 0 else reboot_game()
+    return
+
+
+def a3c(mode):
+    """분산훈련"""
+    # 학습 하이퍼파라미터 가져오기
+    epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size = new_or_load(mode)
+    # 학습 하이퍼파라미터 저장
+    init_lr_params_write(mode, epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size)
+    # 학습 그래프 모듈 실행 & 불확실성 감소 값
+    tensorboard = SummaryWriter(log_dir='runs/a3c')
+    # 실행 배치파일 전달명령어 원본 추출
+    init = cmd_init(mode)
+    # 학습 진행
+    for episode in range(epoch_origin - epoch + 1, epoch_origin + 1):
+        learning_sequence(mode, init, tensorboard, episode)
+        if episode % 10 == 0:
+            reboot_program() if episode % 50 == 0 else reboot_game()
+    # 플로팅 인스턴스 제거
+    tensorboard.close()
     return

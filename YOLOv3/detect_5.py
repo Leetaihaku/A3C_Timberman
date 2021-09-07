@@ -84,7 +84,7 @@ def detect(save_img=False):
     ########################################################################################################
     ########################################################################################################
     # 에피소드 시작
-    Agent.Start()
+    Agent.Start('train_a3c')
     # 안정화 지연
     time.sleep(3)
 
@@ -165,7 +165,7 @@ def detect(save_img=False):
         # 적합
         if not Environment.Init_state_check(State, Next_state):
             SECOND = True
-            Next_state, Done = Agent.Step5_training(State)
+            Next_state, Done = Agent.Step5_training_A3C(State)
             # 안정화 지연
             time.sleep(RL.TRAIN_DETECT_DELAY)
         # 부적합(시간제한초과에 따른 비정상 종료)
@@ -178,7 +178,13 @@ def detect(save_img=False):
         # 상태 전달 및 버퍼 비우기
         else: State = Next_state
 
+
     ########################################################################################################
+    # 학습 종료 → 신경망 가중치 저장, 메인프로세스로 학습결과 반환
+    torch.save(Agent.Actor.state_dict(), Main.MODEL_PATH + Main.TBA)
+    torch.save(Agent.Critic.state_dict(), Main.MODEL_PATH + Main.TBC)
+    # export 용 데이터 출력
+    print(Agent.Actor_loss_stack.item() / Agent.Step_stack, Agent.Critic_loss_stack.item() / Agent.Step_stack, Agent.Reward_stack.item())
     ########################################################################################################
 
 if __name__ == '__main__':

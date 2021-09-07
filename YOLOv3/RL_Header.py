@@ -1,4 +1,5 @@
 import Main_Header as Main
+import Client_Worker as CW
 import torch
 import torch.nn.functional as F
 import torchsummary as ts
@@ -95,7 +96,6 @@ def Critic_network(NODES):
 
 
 
-
 class Agent:
     """에이전트"""
     def __init__(self, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size):
@@ -130,11 +130,14 @@ class Agent:
         elif self.Pre_trained_model_check(mode) and mode == 'test':
             self.Actor.load_state_dict(torch.load(Main.MODEL_PATH+Main.TBA_TEST))
             self.Critic.load_state_dict(torch.load(Main.MODEL_PATH+Main.TBC_TEST))
+        elif self.Pre_trained_model_check(mode) and mode == 'train_a3c':
+            self.Actor.load_state_dict(torch.load(Main.MODEL_PATH + Main.TBA_A3C))
+            self.Critic.load_state_dict(torch.load(Main.MODEL_PATH + Main.TBC_A3C))
         # 추론모드 설정
         self.Actor.eval()
         self.Critic.eval()
         # 게임 시작
-        if mode == 'train':
+        if mode in ['train', 'train_a3c']:
             keyboard.press_and_release('s')
         return
 
@@ -147,6 +150,9 @@ class Agent:
         elif mode == 'test':
             return True if op.isfile(Main.MODEL_PATH+Main.TBA_TEST) \
                            and op.isfile(Main.MODEL_PATH+Main.TBC_TEST) else False
+        elif mode == 'train_a3c':
+            return True if op.isfile(Main.MODEL_PATH+Main.TBA_A3C) \
+                           and op.isfile(Main.MODEL_PATH+Main.TBC_A3C) else False
 
 
     def Action(self, state, mode='train'):
@@ -277,10 +283,9 @@ class Agent:
 
 
     def Step5_training(self, state):
-        """5-step 훈련 :: 1-step 미래상태 생성"""
+        """5-step 훈련 :: 5-step 미래상태 생성"""
         for step in range(5):
             # 상태에 따른 정책행동 실행 & 안정화 지연
-            print(f'state : {state}')
             mini_action = self.Action(state)
             time.sleep(TRAIN_ACTION_DELAY)
             # 행동에 따른 다음상태 케이스 분류
@@ -323,6 +328,38 @@ class Agent:
                 self.Update_by_TD(state, v_value, mini_action, reward, advantage, q_value)
             # 손실 및 보상 평균연산용 분모변수, 다음상태 전환
             self.Step_stack += 1
+            state = next_state
+        return state, done
+
+
+    def Step5_training_A3C(self, state):
+        """5-step 분산훈련 :: 5-step 미래상태 생성"""
+        for step in range(5):
+            # 상태에 따른 정책행동 실행 & 안정화 지연
+            mini_action = self.Action(state)
+            time.sleep(TRAIN_ACTION_DELAY)
+            # 행동에 따른 다음상태 케이스 분류
+            # 위험상태에서의 나쁜 행동
+            if (str(int(state[0].item()))[:2] in ['51', '61'] and mini_action == 0) or (str(int(state[0].item())))[:2] in ['52', '62'] and mini_action == 1:
+                done = True
+                reward = torch.tensor([-1.], device='cuda')
+                next_state = torch.tensor([0., 0., 0., 0., 1.], device='cuda')
+            # 좋은(일반) 행동
+            else:
+                done = False
+                reward = torch.tensor([1. if str(int(state[0].item()))[:2] in ['51', '52', '61', '62'] else 0.5], device='cuda')
+                next_state = ''
+                for half_branch_str in range(len(str(int(state[0].item()))) >> 1):
+                    next_state += FUTURE_ASSISTANT
+                next_state = str((int(next_state) if next_state != '' else 0) + (int(state[0].item()) if state != '' else 0))
+                # 인덱스 초과 상태에 대한 전처리
+                for half_future_branch_str in range(len(next_state) >> 1):
+                    next_state = next_state[2:] if int(next_state[0]) > 6 else next_state
+                next_state = torch.tensor([float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.], device='cuda')
+            # TD(N) 배치 전송 및 글로벌 네트워크 가중치 전이
+            CW.transmit_batch(state.detach(), mini_action, reward, next_state.detach(), done)
+            self.Actor.load_state_dict(torch.load(torch.load(Main.MODEL_PATH+Main.TBA_A3C)))
+            self.Critic.load_state_dict(torch.load(torch.load(Main.MODEL_PATH+Main.TBC_A3C)))
             state = next_state
         return state, done
 

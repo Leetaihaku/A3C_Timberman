@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9c0b7f20-b9f1-4bd6-9c48-4fd6eb030577" name="Default Changelist" comment="">
+    <list default="true" id="5cc709d0-a44a-45ba-b7e1-c727113d5074" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/Convert_TXT_to_XML.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/cfg/timberman.cfg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/cy_yolo2_findboxes.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
@@ -10,7 +12,21 @@
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/cy_yolo_findboxes.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/A3C_Timberman.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/A3C_Timberman.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_exe.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_exe.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_exe_test.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_exe_test.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_exe_transfer.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_exe_transfer.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_test.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_test.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_transfer.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_transfer.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Main_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Main_Header.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/RL_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/RL_Header.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Server_Global.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Server_Global.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Timberman.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Timberman.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/darkflow" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/darkflow" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/detect_5.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/detect_5.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,11 +45,7 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/YOLOv3/Main_Header.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/YOLOv3/test.py" root0="FORCE_HIGHLIGHTING" />
-  </component>
-  <component name="ProjectId" id="1xZskiBuXsWXgz4yqedjmF49hYv" />
+  <component name="ProjectId" id="1xfiUHCfBnE2yXxBOl4ngW5DYSf" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -42,9 +54,32 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.Server_Global">
+    <configuration name="Server_Global" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="A3C_Timberman" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/YOLOv3" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/YOLOv3/Server_Global.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="A3C_Timberman" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -68,6 +103,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Server_Global" />
         <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
@@ -75,11 +111,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="9c0b7f20-b9f1-4bd6-9c48-4fd6eb030577" name="Default Changelist" comment="" />
-      <created>1630574091722</created>
+      <changelist id="5cc709d0-a44a-45ba-b7e1-c727113d5074" name="Default Changelist" comment="" />
+      <created>1630752559540</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1630574091722</updated>
+      <updated>1630752559540</updated>
     </task>
     <servers />
   </component>
