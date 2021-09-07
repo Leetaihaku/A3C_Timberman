@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5cc709d0-a44a-45ba-b7e1-c727113d5074" name="Default Changelist" comment="">
+    <list default="true" id="5cc709d0-a44a-45ba-b7e1-c727113d5074" name="Default Changelist" comment="210907 A3C second try">
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/Convert_TXT_to_XML.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/cfg/timberman.cfg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/cy_yolo2_findboxes.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
@@ -11,10 +11,10 @@
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Main_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Main_Header.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/RL_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/RL_Header.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/Server_Global.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Server_Global.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Timberman.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Timberman.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/darkflow" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/darkflow" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/detect_5.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/detect_5.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,6 +104,18 @@
       <option name="presentableId" value="Default" />
       <updated>1630752559540</updated>
     </task>
+    <task id="LOCAL-00001" summary="210907 A3C second try">
+      <created>1631011413600</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1631011413600</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="210907 A3C second try" />
+    <option name="LAST_COMMIT_MESSAGE" value="210907 A3C second try" />
   </component>
 </project>
