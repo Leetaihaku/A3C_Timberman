@@ -340,7 +340,8 @@ class Agent:
             time.sleep(TRAIN_ACTION_DELAY)
             # 행동에 따른 다음상태 케이스 분류
             # 위험상태에서의 나쁜 행동
-            if (str(int(state[0].item()))[:2] in ['51', '61'] and mini_action == 0) or (str(int(state[0].item())))[:2] in ['52', '62'] and mini_action == 1:
+            if (str(int(state[0].item()))[:2] in ['51', '61'] and mini_action == 0) \
+                    or (str(int(state[0].item())))[:2] in ['52', '62'] and mini_action == 1:
                 done = True
                 reward = torch.tensor([-1.])
                 next_state = torch.tensor([0., 0., 0., 0., 1.])
@@ -351,15 +352,35 @@ class Agent:
                 next_state = ''
                 for half_branch_str in range(len(str(int(state[0].item()))) >> 1):
                     next_state += FUTURE_ASSISTANT
-                next_state = str((int(next_state) if next_state != '' else 0) + (int(state[0].item()) if state != '' else 0))
+                next_state = str(
+                    (int(next_state) if next_state != '' else 0) + (int(state[0].item()) if state != '' else 0))
                 # 인덱스 초과 상태에 대한 전처리
                 for half_future_branch_str in range(len(next_state) >> 1):
                     next_state = next_state[2:] if int(next_state[0]) > 6 else next_state
-                next_state = torch.tensor([float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.])
-            # TD(N) 배치 전송 및 글로벌 네트워크 가중치 전이
-            CW.transmit_batch(state.detach(), mini_action, reward, next_state.detach(), done)
-            self.Actor.load_state_dict(torch.load(torch.load(Main.MODEL_PATH+Main.TBA_A3C)))
-            self.Critic.load_state_dict(torch.load(torch.load(Main.MODEL_PATH+Main.TBC_A3C)))
+                next_state = torch.tensor(
+                    [float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.])
+            # TD(N)
+            if self.Step_mode:
+                # 배치 저장
+                self.Save_batch(state.detach(), mini_action, reward, next_state.detach())
+                # 종료 시, 잔여 업데이트 진행
+                if done:
+                    for batch_idx in range(len(self.Batch)):
+                        actor_weights, critic_weights = CW.transmit_batch(self.Batch)
+                        self.Actor.load_state_dict(actor_weights)
+                        self.Critic.load_state_dict(critic_weights)
+                        self.Batch.popleft()
+                    break
+                # 진행 시, 배치사이즈 한도 내에서 업데이트 진행
+                elif len(self.Batch) == self.Batch_size:
+                    actor_weights, critic_weights = CW.transmit_batch(self.Batch)
+                    self.Actor.load_state_dict(actor_weights)
+                    self.Critic.load_state_dict(critic_weights)
+                    self.Batch.popleft()
+            # TD(0)
+            else:
+                v_value, advantage, q_value = self.Variable_ready_for_TD_0(state, reward, next_state)
+                self.Update_by_TD(state, v_value, mini_action, reward, advantage, q_value)
             state = next_state
         return state, done
 

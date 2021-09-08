@@ -15,49 +15,29 @@ HOST = '210.110.39.196'
 PORT = 9999
 # 글로벌 에이전트, 글로벌 플로팅 모듈 인스턴스
 GLOBAL_AGENT = RL.Agent(0.001, 0.001, 0.001, 32, 1, 8)
-#################################################
-# 디버깅 포인트
-# 글로벌 에이전트 이전 학습 가중치 업로드 모듈 필요
-#################################################
 tensorboard = SummaryWriter(log_dir='runs/a3c')
-
-
-class data:
-    """송수신 데이터 양식"""
-    def __init__(self, state, action, reward, next_state, final_flag):
-        self.state = state
-        self.action = action
-        self.reward = reward
-        self.next_state = next_state
-        self.final_flag = final_flag
 
 
 def handle_worker(client_socket, address):
     """소켓 핸들러"""
     print(f'접속 클라이언트 주소 {address}')
-    worker_data = pickle.loads(client_socket.recv(4096))
-    GLOBAL_AGENT.Save_batch(worker_data.state, worker_data.action, worker_data.reward, worker_data.next_state)
-    # 종료 시, 잔여 업데이트 진행
-    if worker_data.final_flag:
-        for batch_idx in range(len(GLOBAL_AGENT.Batch)):
-            state, v_value, mini_action, reward, advantage, q_value = GLOBAL_AGENT.Variable_ready_for_TD_N_Parallel()
-            GLOBAL_AGENT.Update_by_TD(state, v_value, mini_action, reward, advantage, q_value)
-            GLOBAL_AGENT.Batch.popleft()
-        # 에피소드 종료 시, 플로팅
-        tensorboard.add_scalar(GLOBAL_AGENT.Actor_loss_stack/GLOBAL_AGENT.Step_stack)
-        tensorboard.add_scalar(GLOBAL_AGENT.Critic_loss_stack/GLOBAL_AGENT.Step_stack)
-        tensorboard.add_scalar(GLOBAL_AGENT.Reward_stack/GLOBAL_AGENT.Step_stack)
-        tensorboard.close()
-    # 진행 시, 배치사이즈 한도 내에서 업데이트 진행
-    elif len(GLOBAL_AGENT.Batch) == GLOBAL_AGENT.Batch_size:
-        state, v_value, mini_action, reward, advantage, q_value = GLOBAL_AGENT.Variable_ready_for_TD_N_Parallel()
-        GLOBAL_AGENT.Update_by_TD(state, v_value, mini_action, reward, advantage, q_value)
-        GLOBAL_AGENT.Batch.popleft()
-    # 글로벌 신경망 저장
-    torch.save(GLOBAL_AGENT.Actor.state_dict(), Main.MODEL_PATH+Main.TBA_A3C)
-    torch.save(GLOBAL_AGENT.Actor.state_dict(), Main.MODEL_PATH+Main.TBC_A3C)
-    client_socket.sendall(pickle.dumps('ok'))
+    worker_data = pickle.loads(client_socket.recv(10000))
+    GLOBAL_AGENT.Batch = worker_data['batch']
+    state, v_value, action, reward, advantage, q_value = GLOBAL_AGENT.Variable_ready_for_TD_N_Parallel()
+    GLOBAL_AGENT.Update_by_TD(state, v_value, action, reward, advantage, q_value)
+    GLOBAL_AGENT.Step_stack += 1
+    # 에피소드 종료 시, 플로팅
+    tensorboard.add_scalar('Actor_loss', GLOBAL_AGENT.Actor_loss_stack/GLOBAL_AGENT.Step_stack)
+    tensorboard.add_scalar('Critic_loss', GLOBAL_AGENT.Critic_loss_stack/GLOBAL_AGENT.Step_stack)
+    tensorboard.add_scalar('Reward', GLOBAL_AGENT.Reward_stack/GLOBAL_AGENT.Step_stack)
+    tensorboard.close()
+    # 데이터(글로벌 신경망 가중치 및 플래그 변수) 전송 및 통신 종료
+    message = {'actor_weights': GLOBAL_AGENT.Actor.state_dict(), 'critic_weights': GLOBAL_AGENT.Critic.state_dict(), 'flag': 'ok'}
+    client_socket.sendall(pickle.dumps(message))
     client_socket.close()
+    # 글로벌 모델 저장
+    torch.save(GLOBAL_AGENT.Actor.state_dict(), Main.MODEL_PATH+Main.TBA_A3C)
+    torch.save(GLOBAL_AGENT.Critic.state_dict(), Main.MODEL_PATH+Main.TBC_A3C)
 
 
 def accept_func():
