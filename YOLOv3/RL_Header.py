@@ -230,6 +230,8 @@ class Agent:
         state = batch.state[0]
         v_value = self.Critic(self.State_to_network_input(state))
         action = batch.action[0]
+        print(f'torch.stack(batch.reward)\t{torch.stack(batch.reward)}')
+        print(f"torch.as_tensor(GAMMA_LIST[len(self.Batch)-1], device=cuda)\t{torch.as_tensor(GAMMA_LIST[len(self.Batch)-1], device='cuda')}")
         reward_serial = torch.mul(torch.stack(batch.reward), torch.as_tensor(GAMMA_LIST[len(self.Batch)-1], device='cuda'))
         reward = reward_serial[0]
         next_state = batch.next_state[-1]

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5cc709d0-a44a-45ba-b7e1-c727113d5074" name="Default Changelist" comment="210907 A3C second try">
+    <list default="true" id="5cc709d0-a44a-45ba-b7e1-c727113d5074" name="Default Changelist" comment="210910 A3C Local Complete">
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/Convert_TXT_to_XML.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/cfg/timberman.cfg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/cy_yolo2_findboxes.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
@@ -11,13 +11,15 @@
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/Main_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Main_Header.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/RL_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/RL_Header.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/Server_Global.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Server_Global.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/darkflow" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/darkflow" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/detect_5.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/detect_5.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/test.py" afterDir="false" />
+    </list>
+    <list id="9f41ac3a-fc4f-4136-a356-c970856f5c71" name="210907 A3C Local Complete" comment="">
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_exe.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_exe.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Learning_info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Learning_info.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +47,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
@@ -102,6 +105,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="5cc709d0-a44a-45ba-b7e1-c727113d5074" name="Default Changelist" comment="" />
+      <changelist id="9f41ac3a-fc4f-4136-a356-c970856f5c71" name="210907 A3C Local Complete" comment="" />
       <created>1630752559540</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -128,13 +132,48 @@
       <option name="project" value="LOCAL" />
       <updated>1631070185793</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="210910 A3C fifth try">
+      <created>1631248643992</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1631248643992</updated>
+    </task>
+    <task id="LOCAL-00005" summary="210907 A3C Local Complete">
+      <created>1631250784204</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1631250784204</updated>
+    </task>
+    <task id="LOCAL-00006" summary="210910 A3C Local Complete">
+      <created>1631250866829</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1631250866829</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="210907 A3C second try" />
     <MESSAGE value="210907 A3C third try" />
     <MESSAGE value="210908 A3C forth try" />
-    <option name="LAST_COMMIT_MESSAGE" value="210908 A3C forth try" />
+    <MESSAGE value="210910 A3C fifth try" />
+    <MESSAGE value="210907 A3C Local Complete" />
+    <MESSAGE value="210910 A3C Local Complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="210910 A3C Local Complete" />
   </component>
 </project>
