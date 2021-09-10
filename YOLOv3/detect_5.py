@@ -73,7 +73,7 @@ def detect(save_img=False):
     # 초기 설정(환경, 에이전트, 상태 생성, 에피소드 시종제어 등등)
     Environment = RL.Environment()
     Agent = RL.Agent(float(opt.epsilon), float(opt.epsilon_discount), float(opt.learning_rate), int(opt.node), bool(opt.step_mode), int(opt.batch_size))
-    State = torch.tensor([0., 0., 0., 0., 0.])
+    State = torch.tensor([0., 0., 0., 0., 0.], device='cuda')
     Done = False
     SECOND = False
     # 게임 활성화 클릭 에피소드 시작 준비
@@ -169,8 +169,8 @@ def detect(save_img=False):
             # 안정화 지연
             time.sleep(RL.TRAIN_DETECT_DELAY)
         # 부적합(시간제한초과에 따른 비정상 종료)
-        elif SECOND and (torch.equal(Next_state, torch.tensor([0., 0., 0., 0., 1.]))
-            or torch.equal(Next_state, torch.tensor([0., 0., 1., 1., 0.]))):
+        elif SECOND and (torch.equal(Next_state, torch.tensor([0., 0., 0., 0., 1.], device='cuda'))
+            or torch.equal(Next_state, torch.tensor([0., 0., 1., 1., 0.], device='cuda'))):
             Done = True
 
         # 에피소드 종료 및 마지막 배치 업데이트
@@ -194,7 +194,7 @@ if __name__ == '__main__':
     parser.add_argument('--img-size', type=int, default=640, help='inference size (pixels)')
     parser.add_argument('--conf-thres', type=float, default=0.25, help='object confidence threshold')
     parser.add_argument('--iou-thres', type=float, default=0.45, help='IOU threshold for NMS')
-    parser.add_argument('--device', default='cpu', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
+    parser.add_argument('--device', default='0', help='cuda device, i.e. 0 or 0,1,2,3 or cpu')
     parser.add_argument('--view-img', action='store_true', help='display results')
     parser.add_argument('--save-txt', action='store_true', help='save results to *.txt')
     parser.add_argument('--save-conf', action='store_true', help='save confidences in --save-txt labels')

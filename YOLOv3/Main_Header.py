@@ -3,11 +3,16 @@ import RL_Header as RL
 import pyautogui
 import time
 import keyboard
+import os
+import ctypes
 
 from torch.utils.tensorboard import SummaryWriter
 
-# BlueStack(앱 플레이어) 실행경로
+# BlueStack(앱 플레이어) 실행경로, 리부팅 경로
 ADDRESS_BlueStack = "C:\\Program Files\\BlueStacks\\Bluestacks.exe"
+REBOOT_PROGRAM_COMMAND = '\"C:\Program Files\BlueStacks_nxt\HD-Player.exe\" --instance Nougat32'
+KILL_PROGRAM_COMMAND = 'taskkill /f /im HD-player.exe'
+
 # 이미지, 디바이스, 감지모델 경로
 WEBCAM_PATH = DEVICE_PATH = '0'
 MODEL_PATH = "C:\\A3C_Timberman\\YOLOv3\\"
@@ -148,11 +153,6 @@ def a3c_sequence(mode, cmd_init, episode):
     data = subprocess.run(MODEL_PATH + (DETECT_BAT_EXE if mode else DETECT_BAT_EXE_TRANSFER), shell=True, capture_output=True, text=True)
     # 반환데이터 리스트화
     print(data)
-    data = data.stdout.split('\n')
-    # 학습데이터 리스트화
-    data = list(map(float, data[-2].split(' ')))
-    # 학습결과 및 종료메세지 출력
-    print_learning_result(data, epsilon, learning_rate, episode)
     # 학습정보 갱신 및 저장
     update_lr_params_write(mode, epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size)
     return
@@ -273,42 +273,33 @@ def tensorboard_plotting(tensorboard, data, i):
     tensorboard.add_scalar('Actor_loss', float(data[0]), int(i))
     tensorboard.add_scalar('Critic_loss', float(data[1]), int(i))
     tensorboard.add_scalar('Reward', float(data[2]), int(i))
+    return
 
 
 def reboot_game():
     """에피소드 10회당 게임 리부트"""
     keyboard.press_and_release('esc')
     time.sleep(1)
-    pyautogui.moveTo(x=1665, y=995)
-    pyautogui.click()
+    keyboard.press_and_release('ctrl+shift+5')
     time.sleep(1)
-    pyautogui.moveTo(x=1040, y=75)
-    pyautogui.click()
+    keyboard.press_and_release('delete')
     time.sleep(1)
     keyboard.press_and_release('t')
     time.sleep(1)
     keyboard.press_and_release('F11')
+    return
 
 
 def reboot_program():
     """에피소드 50회당 프로그램 리부트"""
-    keyboard.press_and_release('esc')
-    time.sleep(1)
-    pyautogui.moveTo(x=1630, y=15)
-    pyautogui.click()
-    time.sleep(1)
-    pyautogui.moveTo(x=950, y=540)
-    pyautogui.click()
+    subprocess.run(KILL_PROGRAM_COMMAND)
     time.sleep(15)
-    pyautogui.moveTo(x=665, y=1030)
-    pyautogui.click()
+    subprocess.Popen(REBOOT_PROGRAM_COMMAND, close_fds=True)
     time.sleep(45)
-    pyautogui.moveTo(x=1490, y=120)
-    pyautogui.click()
-    time.sleep(1)
     keyboard.press_and_release('t')
     time.sleep(1)
     keyboard.press_and_release('F11')
+    return
 
 
 def trainer(mode):

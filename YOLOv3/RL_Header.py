@@ -74,24 +74,24 @@ def Print_all(state, action, reward, next_state, v_value, next_v_value, q_value,
     return
 
 
-def Actor_network(NODES):
+def Actor_network(nodes):
     """액터-신경망"""
     model = nn.Sequential()
-    model.add_module('fc1', nn.Linear(STATE_DIM, NODES))
+    model.add_module('fc1', nn.Linear(STATE_DIM, nodes))
     model.add_module('relu', nn.ReLU())
     model.add_module('drop', nn.Dropout(p=0.5))
-    model.add_module('fc2', nn.Linear(NODES, ACTION_DIM))
+    model.add_module('fc2', nn.Linear(nodes, ACTION_DIM))
     model.add_module('log_softmax', nn.LogSoftmax(dim=0))
     return model
 
 
-def Critic_network(NODES):
+def Critic_network(nodes):
     """크리틱-신경망"""
     model = nn.Sequential()
-    model.add_module('fc1', nn.Linear(STATE_DIM, NODES))
+    model.add_module('fc1', nn.Linear(STATE_DIM, nodes))
     model.add_module('relu', nn.ReLU())
     model.add_module('drop', nn.Dropout(p=0.5))
-    model.add_module('fc2', nn.Linear(NODES, VALUE_DIM))
+    model.add_module('fc2', nn.Linear(nodes, VALUE_DIM))
     return model
 
 
@@ -142,7 +142,8 @@ class Agent:
         return
 
 
-    def Pre_trained_model_check(self, mode):
+    @staticmethod
+    def Pre_trained_model_check(mode):
         """사전 훈련된 모델 검색"""
         if mode == 'train':
             return True if op.isfile(Main.MODEL_PATH+Main.TBA) \
@@ -160,7 +161,6 @@ class Agent:
         self.Epsilon = self.Epsilon - self.Epsilon_discount if self.Epsilon > self.Epsilon_lower_limit else self.Epsilon_lower_limit
         action = self.Actor(self.State_to_network_input(state))
         action = action.argmin().item() if self.Epsilon > np.random.uniform(0, 1) else action.argmax().item()
-        print(f'action : {action}')
         if mode == 'train':
             keyboard.press_and_release(ACTION_OPTION[action])
         return action
@@ -173,10 +173,11 @@ class Agent:
         self.index += 1 if self.index < self.Batch_size-1 else 0
 
 
-    def State_to_network_input(self, origin_state):
+    @staticmethod
+    def State_to_network_input(origin_state):
         """탐지상태 → 네트워크 입력상태 변환"""
         if int(origin_state[1]) == 0:
-            return torch.tensor([0., 0., 0., 0., 0., 0.])
+            return torch.tensor([0., 0., 0., 0., 0., 0.], device='cuda')
         else:
             converted_branch = 0b000000000000
             branch = str(int(origin_state[0])) if str(int(origin_state[0])) != '0' else '00'
@@ -186,7 +187,7 @@ class Agent:
             network_input = []
             for i, j in zip(converted_branch[::2], converted_branch[1::2]):
                 network_input.append(0. if int(i + j, 2) == 0 else -1. if int(i+j, 2) == 2 else 1.)
-        return torch.as_tensor(network_input)
+        return torch.as_tensor(network_input, device='cuda')
 
 
     def Variable_ready_for_TD_0(self, state, reward, next_state):
@@ -272,7 +273,7 @@ class Agent:
 
     def Action6_executer(self, future_arr):
         """테스트 :: 5단계 행동시퀀스 생성"""
-        tensor5 = torch.tensor([])
+        tensor5 = torch.tensor([], device='cuda')
         for i in range(len(future_arr)):
             tensor5 = torch.cat((tensor5, self.State_to_network_input(future_arr[i])), dim=0)
         action6 = self.Actor(torch.reshape(tensor5, (5, 6))).max(1)[1]
@@ -292,12 +293,12 @@ class Agent:
             # 위험상태에서의 나쁜 행동
             if (str(int(state[0].item()))[:2] in ['51', '61'] and mini_action == 0) or (str(int(state[0].item())))[:2] in ['52', '62'] and mini_action == 1:
                 done = True
-                reward = torch.tensor([-1.])
-                next_state = torch.tensor([0., 0., 0., 0., 1.])
+                reward = torch.tensor([-1.], device='cuda')
+                next_state = torch.tensor([0., 0., 0., 0., 1.], device='cuda')
             # 좋은(일반) 행동
             else:
                 done = False
-                reward = torch.tensor([1. if str(int(state[0].item()))[:2] in ['51', '52', '61', '62'] else 0.5])
+                reward = torch.tensor([1. if str(int(state[0].item()))[:2] in ['51', '52', '61', '62'] else 0.5], device='cuda')
                 next_state = ''
                 for half_branch_str in range(len(str(int(state[0].item()))) >> 1):
                     next_state += FUTURE_ASSISTANT
@@ -305,7 +306,7 @@ class Agent:
                 # 인덱스 초과 상태에 대한 전처리
                 for half_future_branch_str in range(len(next_state) >> 1):
                     next_state = next_state[2:] if int(next_state[0]) > 6 else next_state
-                next_state = torch.tensor([float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.])
+                next_state = torch.tensor([float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.], device='cuda')
             # TD(N)
             if self.Step_mode:
                 # 배치 저장
@@ -343,22 +344,20 @@ class Agent:
             if (str(int(state[0].item()))[:2] in ['51', '61'] and mini_action == 0) \
                     or (str(int(state[0].item())))[:2] in ['52', '62'] and mini_action == 1:
                 done = True
-                reward = torch.tensor([-1.])
-                next_state = torch.tensor([0., 0., 0., 0., 1.])
+                reward = torch.tensor([-1.], device='cuda')
+                next_state = torch.tensor([0., 0., 0., 0., 1.], device='cuda')
             # 좋은(일반) 행동
             else:
                 done = False
-                reward = torch.tensor([1. if str(int(state[0].item()))[:2] in ['51', '52', '61', '62'] else 0.5])
+                reward = torch.tensor([1. if str(int(state[0].item()))[:2] in ['51', '52', '61', '62'] else 0.5], device='cuda')
                 next_state = ''
                 for half_branch_str in range(len(str(int(state[0].item()))) >> 1):
                     next_state += FUTURE_ASSISTANT
-                next_state = str(
-                    (int(next_state) if next_state != '' else 0) + (int(state[0].item()) if state != '' else 0))
+                next_state = str((int(next_state) if next_state != '' else 0) + (int(state[0].item()) if state != '' else 0))
                 # 인덱스 초과 상태에 대한 전처리
                 for half_future_branch_str in range(len(next_state) >> 1):
                     next_state = next_state[2:] if int(next_state[0]) > 6 else next_state
-                next_state = torch.tensor(
-                    [float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.])
+                next_state = torch.tensor([float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.], device='cuda')
             # TD(N)
             if self.Step_mode:
                 # 배치 저장
@@ -395,7 +394,7 @@ class Agent:
             # 위험상태에서의 나쁜 행동
             if (str(int(state[0].item()))[:2] in ['51', '61'] and mini_action == 0) or (str(int(state[0].item())))[:2] in ['52', '62'] and mini_action == 1:
                 done = True
-                next_state = torch.tensor([0., 0., 0., 0., 1.])
+                next_state = torch.tensor([0., 0., 0., 0., 1.], device='cuda')
             # 좋은(일반) 행동
             else:
                 done = False
@@ -406,7 +405,7 @@ class Agent:
                 # 인덱스 초과 상태에 대한 전처리
                 for half_future_branch_str in range(len(next_state) >> 1):
                     next_state = next_state[2:] if int(next_state[0]) > 6 else next_state
-                next_state = torch.tensor([float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.])
+                next_state = torch.tensor([float(next_state) if next_state != '' else 0., 61. if mini_action == 0 else 62., 0., 0., 0.], device='cuda')
             # 다음상태 전환
             self.Step_stack += 1
             state = next_state
@@ -414,7 +413,8 @@ class Agent:
 
 
 class Environment:
-    def Step(self, extracted_arr):
+    @staticmethod
+    def Step(extracted_arr):
         """탐지화면 -> 상태식(Domain) 생성 // x-axis :: 60 ++ 50, y-axis :: 0 ++ 320(1920x1060 기준)"""
         branch = ''  # 나뭇가지 상태 -> 신경망 입력 형변환
         player = ''  # 나무꾼 상태 -> 신경망 입력 형변환
@@ -460,17 +460,19 @@ class Environment:
 
         # 다음상태 반환
         return torch.tensor([float(refined_branch), float(player),
-                             float(revive_y), float(revive_n), float(episode_state)])
+                             float(revive_y), float(revive_n), float(episode_state)], device='cuda')
 
 
-    def Reward(self, state, done):
+    @staticmethod
+    def Reward(state, done):
         """보상 수여"""
-        reward = torch.tensor([-1.]) if done else torch.tensor([0.5])
-        incentive = torch.tensor([0.5]) if not done and str(int(state.tolist()[0]))[0] in ['5', '6'] else torch.tensor([0.])
+        reward = torch.tensor([-1.], device='cuda') if done else torch.tensor([0.5], device='cuda')
+        incentive = torch.tensor([0.5], device='cuda') if not done and str(int(state.tolist()[0]))[0] in ['5', '6'] else torch.tensor([0.], device='cuda')
         return torch.add(reward, incentive)
 
 
-    def Init_state_check(self, state, next_state):
+    @staticmethod
+    def Init_state_check(state, next_state):
         """초기상태 확인함수"""
         state_list = state.tolist()
         return False if state_list[1] != 0. and state_list[4] != 1. and torch.equal(state, next_state) else True
@@ -493,12 +495,13 @@ class Environment:
 
         # 나뭇가지 체크(생존여부에 따른 케이스 분류)
         branch_ok = True if self.Stochastic_check(s_branch, s_next_branch) or \
-                            torch.equal(next_state, torch.tensor([0., 0., 0., 0., 1.])) or \
-                            torch.equal(next_state, torch.tensor([0., 0., 1., 1., 0.])) else False
+                            torch.equal(next_state, torch.tensor([0., 0., 0., 0., 1.], device='cuda')) or \
+                            torch.equal(next_state, torch.tensor([0., 0., 1., 1., 0.], device='cuda')) else False
         return player_ok and branch_ok
 
 
-    def Stochastic_check(self, s_branch, s_next_branch):
+    @staticmethod
+    def Stochastic_check(s_branch, s_next_branch):
         """비-종료 다음상태 정답제시"""
         # 예외처리 : 두 상태 다 아무것도 없는 상태 있음
         if s_branch in ['0', '61', '62'] and s_next_branch in ['0', '11', '12']:
@@ -524,7 +527,8 @@ class Environment:
         return True if diff == int(correct) else False
 
 
-    def Future6_generator(self, state):
+    @staticmethod
+    def Future6_generator(state):
         """테스트 :: 5단계 변환상태시퀀스 생성"""
         # 5단계 상태시퀀스
         future_state_arr = []
@@ -538,6 +542,6 @@ class Environment:
             # 인덱스 초과 상태에 대한 전처리
             for k in range(len(future_state) >> 1):
                 future_state = future_state[2:] if int(future_state[0]) > 6 else future_state
-            future_state_arr.append(torch.tensor([float(future_state) if future_state not in ['', '0'] else 0., 61., 0., 0., 0.]))
+            future_state_arr.append(torch.tensor([float(future_state) if future_state not in ['', '0'] else 0., 61., 0., 0., 0.], device='cuda'))
             state = future_state
         return future_state_arr

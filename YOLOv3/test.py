@@ -1,5 +1,4 @@
-import torch
-import RL_Header as rl
+import os, subprocess
+import Main_Header as Main
 
-a = torch.tensor([12343223.,61.,0.,0.,0.], device='cuda').element_size()
-print(a)
+Main.reboot_game()

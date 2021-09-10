@@ -14,7 +14,7 @@ def transmit_batch(batch):
     # 데이터 전송
     message = {'batch': batch}
     client_socket.sendall(pickle.dumps(message))
-    receive_data = pickle.loads(client_socket.recv(4096))
+    receive_data = pickle.loads(client_socket.recv(10000))
 
     # 모델 업데이트 완료 신호 + 접속 종료 및 통신 단절
     while True:
