@@ -99,15 +99,15 @@ def Critic_network(nodes):
 class Agent:
     """에이전트"""
     def __init__(self, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size):
-        self.Actor = Actor_network(node)
-        self.Critic = Critic_network(node)
+        self.Actor = Actor_network(node).cuda()
+        self.Critic = Critic_network(node).cuda()
         self.Optimizer1 = optim.Adam(self.Actor.parameters(), lr=learning_rate)
         self.Optimizer2 = optim.Adam(self.Critic.parameters(), lr=learning_rate)
-        self.Actor_loss = torch.zeros(1)
-        self.Actor_loss_stack = torch.zeros(1)
-        self.Critic_loss = torch.zeros(1)
-        self.Critic_loss_stack = torch.zeros(1)
-        self.Reward_stack = torch.zeros(1)
+        self.Actor_loss = torch.zeros(1, device='cuda')
+        self.Actor_loss_stack = torch.zeros(1, device='cuda')
+        self.Critic_loss = torch.zeros(1, device='cuda')
+        self.Critic_loss_stack = torch.zeros(1, device='cuda')
+        self.Reward_stack = torch.zeros(1, device='cuda')
         self.Step_stack = 0
         self.Epsilon = epsilon
         self.Epsilon_discount = epsilon_discount
@@ -230,7 +230,7 @@ class Agent:
         state = batch.state[0]
         v_value = self.Critic(self.State_to_network_input(state))
         action = batch.action[0]
-        reward_serial = torch.mul(torch.stack(batch.reward), torch.as_tensor(GAMMA_LIST[len(self.Batch)-1]))
+        reward_serial = torch.mul(torch.stack(batch.reward), torch.as_tensor(GAMMA_LIST[len(self.Batch)-1], device='cuda'))
         reward = reward_serial[0]
         next_state = batch.next_state[-1]
         next_v_value = self.Critic(self.State_to_network_input(next_state))

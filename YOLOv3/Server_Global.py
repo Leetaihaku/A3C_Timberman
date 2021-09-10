@@ -23,14 +23,14 @@ def handle_worker(client_socket, address):
     """소켓 핸들러"""
     # 워커 주소수집
     if address not in WORKER:
-        WORKER.append(address)
+        WORKER.append(address[0])
 
     # 워커 인덱스 추출
-    worker_idx = WORKER.index(address)
+    worker_idx = WORKER.index(address[0])
     LINK[worker_idx] += 1
 
     # 워커 접속정보 출력
-    print(f'Worker No.{worker_idx} connected')
+    print(f'\n[Worker <<{worker_idx}>> connected]')
     print(f'connection cycle <<{LINK[worker_idx]}>>')
 
     # 학습진행

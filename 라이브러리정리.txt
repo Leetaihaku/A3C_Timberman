@@ -1,0 +1,19 @@
+설치라이브러리 정리
+#### yolov3, Timberman ####
+pytorch
+torchsummary
+keyboard
+pyautogui
+tensorboard
+opencv-python
+tqdm
+pyyaml
+matplotlib
+pandas
+seaborn
+pycocotools
+thop
+#### labelimg ####
+sip
+pyqt5
+lxml

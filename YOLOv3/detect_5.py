@@ -183,8 +183,6 @@ def detect(save_img=False):
     # 학습 종료 → 신경망 가중치 저장, 메인프로세스로 학습결과 반환
     torch.save(Agent.Actor.state_dict(), Main.MODEL_PATH + Main.TBA)
     torch.save(Agent.Critic.state_dict(), Main.MODEL_PATH + Main.TBC)
-    # export 용 데이터 출력
-    print(Agent.Actor_loss_stack.item() / Agent.Step_stack, Agent.Critic_loss_stack.item() / Agent.Step_stack, Agent.Reward_stack.item())
     ########################################################################################################
 
 if __name__ == '__main__':
