@@ -1,6 +1,5 @@
 import os.path as op
 import socket
-import sys
 import threading
 import pickle
 import torch
@@ -10,7 +9,6 @@ import RL_Header as RL
 
 from torch.utils.tensorboard import SummaryWriter
 from threading import Lock
-from datetime import datetime
 
 
 # 호스트, 포트번호, 동시접속제한
@@ -40,21 +38,16 @@ def handle_worker(client_socket, address, mutex):
     print(f'[Worker <<{worker_idx}>> {address[0]} connected]')
     print(f'connection cycle <<{LINK[worker_idx]}>>')
 
-    # 배치데이터(메타(바이트크기)데이터, 배치데이터) 수신
-    worker_meta = pickle.loads(client_socket.recv(1024))
-    worker_data = []
-    while worker_meta > 0:
-        packet = client_socket.recv(10000)
-        worker_meta -= sys.getsizeof(packet)
-        worker_data.append(packet)
-
-    # 수신 배치데이터 디코딩
-    GLOBAL_AGENT.Batch = pickle.loads(b''.join(worker_data))['batch']
+    # 배치데이터 수신 및 디코딩
+    GLOBAL_AGENT.Batch = pickle.loads(client_socket.recv(1000000))
 
     # 임계영역 진입
-    print(f'{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}')
+    print('\nupdate start')
     mutex.acquire()
-
+    if WORKER.index(address[0]):
+        print('△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△')
+    else:
+        print('▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲')
     #####################################################################################################
     # 신경망 업데이트
     state, v_value, action, reward, advantage, q_value = GLOBAL_AGENT.Variable_ready_for_TD_N_Parallel()
@@ -71,21 +64,15 @@ def handle_worker(client_socket, address, mutex):
     #####################################################################################################
 
     # 임계영역 탈출
+    if WORKER.index(address[0]):
+        print('▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽')
+    else:
+        print('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼')
     mutex.release()
-    print(f'{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}')
-    print('update fin\n')
+    print('update finish\n')
 
-    # 송신 가중치데이터 인코딩
-    message = pickle.dumps({
-        'actor_weights': GLOBAL_AGENT.Actor.state_dict(),
-        'critic_weights': GLOBAL_AGENT.Critic.state_dict(),
-        'flag': 'ok'
-    })
-    message_meta = pickle.dumps(sys.getsizeof(message))
-
-    # 가중치데이터(메타(바이트크기)데이터, 가중치데이터) 송신
-    client_socket.sendall(message_meta)
-    client_socket.sendall(message)
+    # 송신 가중치데이터 인코딩 및 송신
+    client_socket.sendall(pickle.dumps({'actor_weights': GLOBAL_AGENT.Actor.state_dict(), 'critic_weights': GLOBAL_AGENT.Critic.state_dict()}))
 
     # 글로벌 모델 저장
     torch.save(GLOBAL_AGENT.Actor.state_dict(), Main.MODEL_PATH+Main.TBA_A3C)
@@ -118,5 +105,6 @@ if __name__ == '__main__':
 
     # 병행성 제어
     mutex = Lock()
+
     # 소켓 리스닝
     accept()

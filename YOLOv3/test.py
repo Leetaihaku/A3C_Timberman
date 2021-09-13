@@ -1,4 +1,6 @@
 import os, subprocess
+import pickle
+
 import Main_Header as Main
 import Client_Worker as CW
 
@@ -15,4 +17,7 @@ for _ in range(8):
     batch.append(None)
     batch[_] = a
 
-CW.transmit_batch(batch)
+#CW.transmit_batch(batch)
+data = pickle.dumps(batch)
+print(data)
+print(str(data))

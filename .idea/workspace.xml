@@ -159,7 +159,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631281259490</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="210913 A3C truncated error Complete">
+      <created>1631500767573</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1631500767573</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -182,6 +189,7 @@
     <MESSAGE value="210907 A3C Local Complete" />
     <MESSAGE value="210910 A3C Local Complete" />
     <MESSAGE value="210910 A3C mutex, truncated error debugging" />
-    <option name="LAST_COMMIT_MESSAGE" value="210910 A3C mutex, truncated error debugging" />
+    <MESSAGE value="210913 A3C truncated error Complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="210913 A3C truncated error Complete" />
   </component>
 </project>
