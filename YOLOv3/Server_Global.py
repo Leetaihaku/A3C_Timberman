@@ -1,5 +1,6 @@
 import os.path as op
 import socket
+import sys
 import threading
 import pickle
 import torch
@@ -9,6 +10,7 @@ import RL_Header as RL
 
 from torch.utils.tensorboard import SummaryWriter
 from threading import Lock
+from datetime import datetime
 
 
 # 호스트, 포트번호, 동시접속제한
@@ -28,33 +30,29 @@ def handle_worker(client_socket, address, mutex):
     # 워커 주소수집
     if address[0] not in WORKER:
         WORKER.append(address[0])
-        print(f'\n<<\t<< Newly connected with{WORKER} >>\t>>\n')
+        print(f'<<\t<< Newly connected with{WORKER} >>\t>>')
 
     # 워커 인덱스 추출
     worker_idx = WORKER.index(address[0])
     LINK[worker_idx] += 1
 
     # 워커 접속정보 출력
-    print(f'\n[Worker <<{worker_idx}>> {address[0]} connected]')
+    print(f'[Worker <<{worker_idx}>> {address[0]} connected]')
     print(f'connection cycle <<{LINK[worker_idx]}>>')
 
-    # 패킷 수신
-    # worker_data = []
-    # while True:
-    #     packet = client_socket.recv(4096)
-    #     if not packet:
-    #         break
-    #     else:
-    #         worker_data.append(packet)
+    # 배치데이터(메타(바이트크기)데이터, 배치데이터) 수신
+    worker_meta = pickle.loads(client_socket.recv(1024))
+    worker_data = []
+    while worker_meta > 0:
+        packet = client_socket.recv(10000)
+        worker_meta -= sys.getsizeof(packet)
+        worker_data.append(packet)
 
     # 수신 배치데이터 디코딩
-    worker_data = client_socket.recv(9999999999)
-    print(f'raw_worker_data {worker_data}')
-    GLOBAL_AGENT.Batch = pickle.loads(worker_data)['batch']
-    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-    print(GLOBAL_AGENT.Batch)
-    print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+    GLOBAL_AGENT.Batch = pickle.loads(b''.join(worker_data))['batch']
+
     # 임계영역 진입
+    print(f'{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}')
     mutex.acquire()
 
     #####################################################################################################
@@ -74,11 +72,20 @@ def handle_worker(client_socket, address, mutex):
 
     # 임계영역 탈출
     mutex.release()
+    print(f'{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}{address[0]}')
+    print('update fin\n')
 
-    # 데이터(글로벌 신경망 가중치 및 플래그 변수) 인코딩 전송 및 통신 종료
-    message = {'actor_weights': GLOBAL_AGENT.Actor.state_dict(), 'critic_weights': GLOBAL_AGENT.Critic.state_dict(), 'flag': 'ok'}
-    client_socket.sendall(pickle.dumps(message))
-    client_socket.close()
+    # 송신 가중치데이터 인코딩
+    message = pickle.dumps({
+        'actor_weights': GLOBAL_AGENT.Actor.state_dict(),
+        'critic_weights': GLOBAL_AGENT.Critic.state_dict(),
+        'flag': 'ok'
+    })
+    message_meta = pickle.dumps(sys.getsizeof(message))
+
+    # 가중치데이터(메타(바이트크기)데이터, 가중치데이터) 송신
+    client_socket.sendall(message_meta)
+    client_socket.sendall(message)
 
     # 글로벌 모델 저장
     torch.save(GLOBAL_AGENT.Actor.state_dict(), Main.MODEL_PATH+Main.TBA_A3C)

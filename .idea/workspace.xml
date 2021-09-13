@@ -11,10 +11,9 @@
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-36m-x86_64-linux-gnu.so" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/RL_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/RL_Header.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/Server_Global.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Server_Global.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/darkflow" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/darkflow" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/detect_5.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/detect_5.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/test.py" afterDir="false" />
     </list>
     <list id="9f41ac3a-fc4f-4136-a356-c970856f5c71" name="210907 A3C Local Complete" comment="">
@@ -153,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631250866829</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="210910 A3C mutex, truncated error debugging">
+      <created>1631281259490</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1631281259490</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -166,6 +172,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="210907 A3C second try" />
@@ -174,6 +181,7 @@
     <MESSAGE value="210910 A3C fifth try" />
     <MESSAGE value="210907 A3C Local Complete" />
     <MESSAGE value="210910 A3C Local Complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="210910 A3C Local Complete" />
+    <MESSAGE value="210910 A3C mutex, truncated error debugging" />
+    <option name="LAST_COMMIT_MESSAGE" value="210910 A3C mutex, truncated error debugging" />
   </component>
 </project>
