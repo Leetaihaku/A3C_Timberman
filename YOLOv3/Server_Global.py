@@ -14,6 +14,10 @@ from threading import Lock
 # 호스트, 포트번호, 동시접속제한
 HOST = '210.110.39.196'
 PORT = 9999
+# 글로벌 플로팅 지점 및 저장경로
+GLOBAL_PLOT_POINT = 0
+GLOBAL_PLOT_SAVE = 'global_plot.txt'
+# 병행접속 최대 가능 수
 SIMULTANEOUS_LIMIT = 2
 # 글로벌 에이전트, 글로벌 플로팅 모듈 인스턴스, 워커 인스턴스
 SERVER_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,8 +31,12 @@ def handle_worker(client_socket, address, mutex):
     """소켓 핸들러"""
     # 워커 주소수집
     if address[0] not in WORKER:
-        WORKER.append(address[0])
-        print(f'<<\t<< Newly connected with{WORKER} >>\t>>')
+        if len(WORKER) <= SIMULTANEOUS_LIMIT:
+            WORKER.append(address[0])
+            print(f'<<\t<< Newly connected with{WORKER} >>\t>>')
+        else:
+            print('동시접속 가능한 최대 Worker 수를 초과')
+            return
 
     # 워커 인덱스 추출
     worker_idx = WORKER.index(address[0])
@@ -39,7 +47,11 @@ def handle_worker(client_socket, address, mutex):
     print(f'connection cycle <<{LINK[worker_idx]}>>')
 
     # 배치데이터 수신 및 디코딩
-    GLOBAL_AGENT.Batch = pickle.loads(client_socket.recv(1000000))
+    try:
+        GLOBAL_AGENT.Batch = pickle.loads(client_socket.recv(1000000))
+    except:
+        print('배치데이터 수신에러 발생')
+        return
 
     # 임계영역 진입
     print('\nupdate start')
@@ -54,13 +66,15 @@ def handle_worker(client_socket, address, mutex):
     GLOBAL_AGENT.Update_by_TD(state, v_value, action, reward, advantage, q_value)
     GLOBAL_AGENT.Step_stack += 1
 
-    # 에피소드 종료 시, 학습정보 출력 및 텐서보드 플로팅
+    # 에피소드 종료 시, 학습정보 출력 및 텐서보드 플로팅 및 플로팅 지점 저장
     print(f'Actor_loss\t{GLOBAL_AGENT.Actor_loss_stack/GLOBAL_AGENT.Step_stack}')
     print(f'Critic_loss\t{GLOBAL_AGENT.Critic_loss_stack/GLOBAL_AGENT.Step_stack}')
     print(f'Reward\t{GLOBAL_AGENT.Reward_stack/GLOBAL_AGENT.Step_stack}')
     TENSORBOARD.add_scalar('Actor_loss', GLOBAL_AGENT.Actor_loss_stack/GLOBAL_AGENT.Step_stack, sum(LINK))
     TENSORBOARD.add_scalar('Critic_loss', GLOBAL_AGENT.Critic_loss_stack/GLOBAL_AGENT.Step_stack, sum(LINK))
     TENSORBOARD.add_scalar('Reward', GLOBAL_AGENT.Reward_stack/GLOBAL_AGENT.Step_stack, sum(LINK))
+    with open(GLOBAL_PLOT_SAVE) as GP:
+        GP.write(f'{WORKER[0]}\n{WORKER[1]}\n{LINK[0]}\n{LINK[1]}\n')
     #####################################################################################################
 
     # 임계영역 탈출
@@ -98,6 +112,24 @@ def accept():
 
 
 if __name__ == '__main__':
+    # 이어하기에 따른 플로팅지점 불러오기
+    while True:
+        select = input('1. 새 학습 / 2. 이어 학습')
+        if select == 1:
+            pass
+            break
+        elif select == 2:
+            with open(GLOBAL_PLOT_SAVE) as GP:
+                GLOBAL_PLOT_POINT = GP.readlines()
+            WORKER.append(GLOBAL_PLOT_POINT[0])
+            WORKER.append(GLOBAL_PLOT_POINT[1])
+            LINK[0] = GLOBAL_PLOT_POINT[2]
+            LINK[1] = GLOBAL_PLOT_POINT[3]
+            break
+        else:
+            print('잘못된 선택입니다.')
+            print('다시 선택하세요')
+
     # 글로벌컴퓨터 로컬가중치 불러오기
     if op.isfile(Main.MODEL_PATH+Main.TBA_A3C) and op.isfile(Main.MODEL_PATH+Main.TBC_A3C):
         GLOBAL_AGENT.Actor.load_state_dict(torch.load(Main.MODEL_PATH+Main.TBA_A3C))

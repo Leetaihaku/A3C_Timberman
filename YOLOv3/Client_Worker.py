@@ -10,7 +10,7 @@ HOST = '210.110.39.196'
 PORT = 9999
 
 
-def transmit_batch(batch):
+def transmit_batch(batch, actor, critic):
     # 클라이언트 소켓 생성 및 서버연결
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect((HOST, PORT))
@@ -19,7 +19,10 @@ def transmit_batch(batch):
     client_socket.sendall(pickle.dumps(batch))
 
     # 가중치데이터(메타(바이트크기)데이터, 가중치데이터) 수신 및 디코딩
-    global_data = pickle.loads(client_socket.recv(1000000))
+    try:
+        global_data = pickle.loads(client_socket.recv(1000000))
+    except:
+        return actor, critic
 
     # 소켓통신 종료 및 수신 가중치데이터 반환
     client_socket.close()

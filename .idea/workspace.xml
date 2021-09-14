@@ -12,9 +12,9 @@
       <change afterPath="$PROJECT_DIR$/YOLOv3/darkflow/darkflow/cython_utils/nms.cpython-37m-x86_64-linux-gnu.so" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Client_Worker.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YOLOv3/RL_Header.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/RL_Header.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/Server_Global.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Server_Global.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/YOLOv3/darkflow" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/darkflow" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YOLOv3/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/test.py" afterDir="false" />
     </list>
     <list id="9f41ac3a-fc4f-4136-a356-c970856f5c71" name="210907 A3C Local Complete" comment="">
       <change beforePath="$PROJECT_DIR$/YOLOv3/Detect_exe.bat" beforeDir="false" afterPath="$PROJECT_DIR$/YOLOv3/Detect_exe.bat" afterDir="false" />
@@ -166,7 +166,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631500767573</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="210913 A3C remote sub-complete i">
+      <created>1631520678787</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1631520678787</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -190,6 +197,7 @@
     <MESSAGE value="210910 A3C Local Complete" />
     <MESSAGE value="210910 A3C mutex, truncated error debugging" />
     <MESSAGE value="210913 A3C truncated error Complete" />
-    <option name="LAST_COMMIT_MESSAGE" value="210913 A3C truncated error Complete" />
+    <MESSAGE value="210913 A3C remote sub-complete i" />
+    <option name="LAST_COMMIT_MESSAGE" value="210913 A3C remote sub-complete i" />
   </component>
 </project>

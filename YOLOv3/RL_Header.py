@@ -367,14 +367,14 @@ class Agent:
                 # 종료 시, 잔여 업데이트 진행
                 if done:
                     for batch_idx in range(len(self.Batch)):
-                        actor_weights, critic_weights = CW.transmit_batch(self.Batch)
+                        actor_weights, critic_weights = CW.transmit_batch(self.Batch, self.Actor.state_dict(), self.Critic.state_dict())
                         self.Actor.load_state_dict(actor_weights)
                         self.Critic.load_state_dict(critic_weights)
                         self.Batch.popleft()
                     break
                 # 진행 시, 배치사이즈 한도 내에서 업데이트 진행
                 elif len(self.Batch) == self.Batch_size:
-                    actor_weights, critic_weights = CW.transmit_batch(self.Batch)
+                    actor_weights, critic_weights = CW.transmit_batch(self.Batch, self.Actor.state_dict(), self.Critic.state_dict())
                     self.Actor.load_state_dict(actor_weights)
                     self.Critic.load_state_dict(critic_weights)
                     self.Batch.popleft()
