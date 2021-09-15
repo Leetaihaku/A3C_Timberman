@@ -3,10 +3,8 @@ import time
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
-import Main_Header as Main
 import RL_Header as RL
 import pyautogui
-import keyboard
 
 from pathlib import Path
 from numpy import random

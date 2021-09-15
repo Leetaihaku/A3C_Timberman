@@ -1,10 +1,7 @@
 import subprocess
 import RL_Header as RL
-import pyautogui
 import time
 import keyboard
-import os
-import ctypes
 
 from torch.utils.tensorboard import SummaryWriter
 
@@ -141,7 +138,7 @@ def test_sequence(cmd_test_init):
     return
 
 
-def a3c_sequence(mode, cmd_init, episode):
+def a3c_sequence(mode, cmd_init):
     """학습 진행"""
     # 학습 하이퍼파라미터 읽어오기
     epoch_origin, epoch, epsilon, epsilon_discount, learning_rate, node, step_mode, batch_size = lr_params_read(mode)
@@ -355,7 +352,7 @@ def a3c(mode):
     init = cmd_init(mode)
     # 학습 진행
     for episode in range(epoch_origin - epoch + 1, epoch_origin + 1):
-        a3c_sequence(mode, init, episode)
+        a3c_sequence(mode, init)
         if episode % 10 == 0:
             reboot_program() if episode % 50 == 0 else reboot_game()
     return

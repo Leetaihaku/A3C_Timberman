@@ -17,7 +17,8 @@ PORT = 9999
 # 글로벌 플로팅 지점 및 저장경로
 GLOBAL_PLOT_POINT = 0
 GLOBAL_PLOT_SAVE = 'global_plot.txt'
-# 병행접속 최대 가능 수
+# 락, 병행접속 최대 가능 수
+MUTEX = Lock()
 SIMULTANEOUS_LIMIT = 2
 # 글로벌 에이전트, 글로벌 플로팅 모듈 인스턴스, 워커 인스턴스
 SERVER_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,7 +28,7 @@ WORKER = []
 LINK = [0, 0]
 
 
-def handle_worker(client_socket, address, mutex):
+def handle_worker(client_socket, address):
     """소켓 핸들러"""
     # 워커 주소수집
     if address[0] not in WORKER:
@@ -48,20 +49,21 @@ def handle_worker(client_socket, address, mutex):
 
     # 배치데이터 수신 및 디코딩
     try:
-        GLOBAL_AGENT.Batch = pickle.loads(client_socket.recv(1000000))
+        worker_data = pickle.loads(client_socket.recv(1000000))
     except:
         print('배치데이터 수신에러 발생')
         return
 
     # 임계영역 진입
     print('\nupdate start')
-    mutex.acquire()
+    MUTEX.acquire()
     if WORKER.index(address[0]):
         print('△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△△')
     else:
         print('▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲')
     #####################################################################################################
     # 신경망 업데이트
+    GLOBAL_AGENT.Batch = worker_data
     state, v_value, action, reward, advantage, q_value = GLOBAL_AGENT.Variable_ready_for_TD_N_Parallel()
     GLOBAL_AGENT.Update_by_TD(state, v_value, action, reward, advantage, q_value)
     GLOBAL_AGENT.Step_stack += 1
@@ -73,8 +75,10 @@ def handle_worker(client_socket, address, mutex):
     TENSORBOARD.add_scalar('Actor_loss', GLOBAL_AGENT.Actor_loss_stack/GLOBAL_AGENT.Step_stack, sum(LINK))
     TENSORBOARD.add_scalar('Critic_loss', GLOBAL_AGENT.Critic_loss_stack/GLOBAL_AGENT.Step_stack, sum(LINK))
     TENSORBOARD.add_scalar('Reward', GLOBAL_AGENT.Reward_stack/GLOBAL_AGENT.Step_stack, sum(LINK))
-    with open(GLOBAL_PLOT_SAVE) as GP:
-        GP.write(f'{WORKER[0]}\n{WORKER[1]}\n{LINK[0]}\n{LINK[1]}\n')
+    with open(GLOBAL_PLOT_SAVE, 'w') as GP:
+        for i in range(len(WORKER)):
+            GP.write(f'{WORKER[i]}\n')
+        GP.write(f'{LINK[0]}\n{LINK[1]}\n')
     #####################################################################################################
 
     # 임계영역 탈출
@@ -82,7 +86,7 @@ def handle_worker(client_socket, address, mutex):
         print('▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽▽')
     else:
         print('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼')
-    mutex.release()
+    MUTEX.release()
     print('update finish\n')
 
     # 송신 가중치데이터 인코딩 및 송신
@@ -106,7 +110,7 @@ def accept():
         except KeyboardInterrupt:
             SERVER_SOCKET.close()
             print("Keyboard interrupt")
-        thread = threading.Thread(target=handle_worker, args=(client_socket, address, mutex))
+        thread = threading.Thread(target=handle_worker, args=(client_socket, address))
         thread.daemon = True
         thread.start()
 
@@ -114,12 +118,12 @@ def accept():
 if __name__ == '__main__':
     # 이어하기에 따른 플로팅지점 불러오기
     while True:
-        select = input('1. 새 학습 / 2. 이어 학습')
+        select = int(input('1. 새 학습 / 2. 이어 학습 : '))
         if select == 1:
             pass
             break
         elif select == 2:
-            with open(GLOBAL_PLOT_SAVE) as GP:
+            with open(GLOBAL_PLOT_SAVE, 'r') as GP:
                 GLOBAL_PLOT_POINT = GP.readlines()
             WORKER.append(GLOBAL_PLOT_POINT[0])
             WORKER.append(GLOBAL_PLOT_POINT[1])
@@ -134,9 +138,6 @@ if __name__ == '__main__':
     if op.isfile(Main.MODEL_PATH+Main.TBA_A3C) and op.isfile(Main.MODEL_PATH+Main.TBC_A3C):
         GLOBAL_AGENT.Actor.load_state_dict(torch.load(Main.MODEL_PATH+Main.TBA_A3C))
         GLOBAL_AGENT.Critic.load_state_dict(torch.load(Main.MODEL_PATH+Main.TBC_A3C))
-
-    # 병행성 제어
-    mutex = Lock()
 
     # 소켓 리스닝
     accept()
