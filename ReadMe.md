@@ -112,8 +112,7 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 
 ### 학습모델 구조도(학습모델의 반복학습 절차)
 ### Structure diagram of learning model (repeated learning procedure of learning model)
-![A2C,T-A2C모델구조](.\ReadMe\A2C,T-A2C모델구조.jpg "A2C,T-A2C모델구조")
-
+![A2C,T-A2C모델구조](https://user-images.githubusercontent.com/46801090/147499297-ed1abf45-edb3-4132-b081-e015db367cab.jpg)
 <ol>
     1. 상태추출 : S_t >> 현재상태 추출<br>
     2. 행동추출 및 실행 : A_t >> 선택 가능한 행동 중 택 1<br>
