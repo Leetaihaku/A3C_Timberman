@@ -102,7 +102,7 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 ## 시연영상(Demonstration video)
 --- 
 
-![시연영상_1](.\ReadMe\설계변환후_1.gif "시연영상_1")
+![시연영상_1](./ReadMe/설계변환후_1.gif "시연영상_1")
 ![시연영상_2](.\ReadMe\설계변환후_2.gif "시연영상_2")
 
 <br><br><br><br><br>
