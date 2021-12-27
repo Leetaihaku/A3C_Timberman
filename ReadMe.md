@@ -1,7 +1,6 @@
 <!-- Header -->
 # 모바일 게임플레이 행동 정책 학습을 위한 YOLOv3 기반 강화학습(YOLOv3 based Reinforcement learning for Mobile game playing policy)
 ## 정보(Information)
---- 
 
 - 대한전기학회 논문지 게재(논문번호 : 2021-D-CA-0062) (2021.12)<br>
 The paper of the Korean Institute of Electrical Engineers(KIEE) was published (Paper number: 2021-D-CA-0062) (Dec, 2021.)
@@ -11,7 +10,6 @@ Winning the Encouragement Award for Undergraduate Paper Competition at the Autum
 <br><br><br><br><br>
 
 ## 개요(Outline)
---- 
 
 - 구글플레이 앱스토어 내 'Timberman'이라는 명칭의 모바일 게임에 대하여 게임이미지를 기반으로 게임플레이정책을 학습하는 심층강화학습 모델<br>
 Deep reinforcement learning model that learns game play policies based on game images for mobile games named "Timberman" in the Google Play App Store.
@@ -23,7 +21,6 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <br><br><br><br><br>
 
 ## 개발 환경(Development environment)
---- 
 
 <table>
 <thead>
@@ -73,7 +70,6 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <br><br><br><br><br>
 
 ## 시연영상(Demonstration video)
---- 
 
 ![설계변환후_1](https://user-images.githubusercontent.com/46801090/147499441-287d8785-0e61-44e8-a52c-2f9c768e924c.gif)
 ![설계변환후_2](https://user-images.githubusercontent.com/46801090/147499443-ec7ebc56-0655-4bc2-a0d8-be4910aa840d.gif)
@@ -81,7 +77,6 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <br><br><br><br><br>
 
 ## 구조(Structure)
---- 
 
 ### 학습모델 구조도(학습모델의 반복학습 절차)
 ### Structure diagram of learning model (repeated learning procedure of learning model)
@@ -117,7 +112,6 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <br><br><br><br><br>
 
 ## 구현(Implementation)
----
 
 ### 프로그램 흐름도(Flow chart)
 
@@ -140,7 +134,6 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <br><br><br><br><br>
 
 ## 특징점(Development feature)
----
 
 ### 상태도메인 축소(State domain reduction)
 ![상태3진화_1](https://user-images.githubusercontent.com/46801090/147499435-7a37b7c5-0173-4490-ae0e-f261ae582ed4.jpg)
@@ -175,7 +168,6 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <br><br><br><br><br>
 
 ## 학습성능 및 실험결과(Learning performance and Experimental results)
----
 
 ![T-A2C성능](https://user-images.githubusercontent.com/46801090/147499428-8136b3b7-87c2-4861-aa85-a9c2acf74294.jpg)
 ### A2C / T-A2C 모델 간 성능 비교(Learning performance comparison between A2C and T-A2C)
