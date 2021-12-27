@@ -95,7 +95,7 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 
 ### 보상함수 구조도
 ### Structure diagram of the reward function
-![보상함수](https://user-images.githubusercontent.com/46801090/147499430-d873f022-8508-4f4a-bc2d-efb845fa0d35.gif)
+![보상함수](https://user-images.githubusercontent.com/46801090/147501936-dd778173-1d59-4353-af3e-e8280fe08446.gif)
 <ol>
     1. 기본 보상(Basic)<br>
     <ul>
