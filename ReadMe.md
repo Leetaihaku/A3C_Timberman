@@ -36,10 +36,7 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <tr>
     <td>하드웨어 개발 환경(HW-Environment)</td>
     <td>
-    <img src="https://img.shields.io/badge/CPU-i5_6500-0078D6?
-                style=plastic
-                &logo=Windows
-                &logoColor=white"/>
+    ![OS-Windows-0078D6](https://user-images.githubusercontent.com/46801090/147500217-6669967c-1fe3-44b5-b75c-bdcf428b500e.jpg)
     <img src="https://img.shields.io/badge/GPU-GTX_1060-44A833?
                 style=plastic
                 &logo=Anaconda
