@@ -1,5 +1,5 @@
 <!-- Header -->
-# 모바일 게임플레이 행동 정책 학습을 위한 YOLOv3 기반 강화학습
+# 모바일 게임플레이 행동 정책 학습을 위한 YOLOv3 기반 강화학습(YOLOv3 based Reinforcement learning for Mobile game playing policy)
 ## 정보(Information)
 --- 
 
