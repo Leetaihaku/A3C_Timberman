@@ -50,10 +50,7 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <tr>
     <td>개발 언어(Language)</td>
     <td>
-    <img src="https://img.shields.io/badge/LANG-Python-3776AB?
-                style=plastic
-                &logo=Python
-                &logoColor=white"/>
+    <img src="https://img.shields.io/badge/LANG-Python-3776AB?style=plastic&logo=Python&logoColor=white"/>
     </td>
 </tr>
 <tr>
