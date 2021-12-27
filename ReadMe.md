@@ -36,21 +36,15 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <tr>
     <td>하드웨어 개발 환경(HW-Environment)</td>
     <td>
-    ![OS-Windows-0078D6](https://user-images.githubusercontent.com/46801090/147500217-6669967c-1fe3-44b5-b75c-bdcf428b500e.jpg)
-    <img src="https://img.shields.io/badge/GPU-GTX_1060-44A833?style=plastic&logo=Anaconda&logoColor=white"/>
+    <img src="https://img.shields.io/badge/CPU-i5_6500-44A833?style=plastic&logoColor=white"/>
+    <img src="https://img.shields.io/badge/GPU-GTX_1060-44A833?style=plastic&logoColor=white"/>
     </td>
 </tr>
 <tr>
     <td>소프트웨어 개발 환경(SW-Environment)</td>
     <td>
-    <img src="https://img.shields.io/badge/OS-Windows-0078D6?
-                style=plastic
-                &logo=Windows
-                &logoColor=white"/>
-    <img src="https://img.shields.io/badge/ENV-Anaconda-44A833?
-                style=plastic
-                &logo=Anaconda
-                &logoColor=white"/>
+    <img src="https://img.shields.io/badge/OS-Windows-0078D6?style=plastic&logo=Windows&logoColor=white"/>
+    <img src="https://img.shields.io/badge/ENV-Anaconda-44A833?style=plastic&logo=Anaconda&logoColor=white"/>
     </td>
 </tr>
 <tr>
@@ -65,27 +59,15 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 <tr>
     <td>라이브러리(Library)</td>
     <td>
-    <img src="https://img.shields.io/badge/DL-PyTorch-EE4C2C?
-                style=plastic
-                &logo=PyTorch
-                &logoColor=white"/> 
-    <img src="https://img.shields.io/badge/DL-NumPy-013243?
-                style=plastic
-                &logo=NumPy
-                &logoColor=white"/>
-    <img src="https://img.shields.io/badge/IMG_PROCESS-OpenCV-5C3EE8?
-                style=plastic
-                &logo=OpenCV
-                &logoColor=white"/>
+    <img src="https://img.shields.io/badge/DL-PyTorch-EE4C2C?style=plastic&logo=PyTorch&logoColor=white"/> 
+    <img src="https://img.shields.io/badge/DL-NumPy-013243?style=plastic&logo=NumPy&logoColor=white"/>
+    <img src="https://img.shields.io/badge/IMG_PROCESS-OpenCV-5C3EE8?style=plastic&logo=OpenCV&logoColor=white"/>
     </td>
 </tr>
 <tr>
     <td>보조(외부) 프로그램(External program)</td>
     <td>
-    <img src="https://img.shields.io/badge/Web_Cam-ManyCam-00CEC8?
-                style=plastic
-                &logo=ManyCam
-                &logoColor=white"/>
+    <img src="https://img.shields.io/badge/Web_Cam-ManyCam-00CEC8?&logo=ManyCam&logoColor=white"/>
     </td>
 </tr>
 </tbody>
