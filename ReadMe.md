@@ -136,9 +136,9 @@ Comparison of learning performance between A2C, a deep reinforcement learning mo
 ## 특징점(Development feature)
 
 ### 상태도메인 축소(State domain reduction)
-![상태3진화_1](https://user-images.githubusercontent.com/46801090/147499435-7a37b7c5-0173-4490-ae0e-f261ae582ed4.jpg)
-![상태3진화_2](https://user-images.githubusercontent.com/46801090/147499440-6cd11df8-59ea-4ed8-b8ff-630868c13180.jpg)
-![탐지](https://user-images.githubusercontent.com/46801090/147499449-8d4b1323-1db1-48f6-8d72-d211df81dca5.gif)
+![상태3진화_1](https://user-images.githubusercontent.com/46801090/147499435-7a37b7c5-0173-4490-ae0e-f261ae582ed4.jpg)<br>
+![상태3진화_2](https://user-images.githubusercontent.com/46801090/147499440-6cd11df8-59ea-4ed8-b8ff-630868c13180.jpg)<br>
+![탐지](https://user-images.githubusercontent.com/46801090/147502518-d9355303-01eb-4f80-b5c1-a2325c8e4134.gif)
 
 - 상태 표현 3진화에 따라 상태도메인 축소<br><br>
 - 변경 전(픽셀 수 = 900x1600 = 1,440,000개) → 변경 후(층계 별 장애물 정보 = 6개)
