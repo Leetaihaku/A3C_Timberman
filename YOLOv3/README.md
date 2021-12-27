@@ -1,147 +1,254 @@
-<a href="https://apps.apple.com/app/id1452689527" target="_blank">
-<img src="https://user-images.githubusercontent.com/26833433/99805965-8f2ca800-2b3d-11eb-8fad-13a96b222a23.jpg" width="1000"></a>
-&nbsp
+<!-- Header -->
+# 모바일 게임플레이 행동 정책 학습을 위한 YOLOv3 기반 강화학습
+## 정보(Information)
+--- 
 
-![CI CPU testing](https://github.com/ultralytics/yolov3/workflows/CI%20CPU%20testing/badge.svg)
+- 대한전기학회 논문지 게재(논문번호 : 2021-D-CA-0062) (2021.12)<br>
+The paper of the Korean Institute of Electrical Engineers(KIEE) was published (Paper number: 2021-D-CA-0062) (Dec, 2021.)
+<br><br>
+- 대한전자공학회 추계학술대회 학부생논문경진부문 장려상 수상 (2021.11)<br>
+Winning the Encouragement Award for Undergraduate Paper Competition at the Autumn Conference of the Institute of Electronics and Information Engineers(IEIE) (Nov, 2021.)
+<br><br><br><br><br>
 
-BRANCH NOTICE: The [ultralytics/yolov3](https://github.com/ultralytics/yolov3) repository is now divided into two branches:
-* [Master branch](https://github.com/ultralytics/yolov3/tree/master): Forward-compatible with all [YOLOv5](https://github.com/ultralytics/yolov5) models and methods (**recommended**).
-```bash
-$ git clone https://github.com/ultralytics/yolov3  # master branch (default)
-```
-* [Archive branch](https://github.com/ultralytics/yolov3/tree/archive): Backwards-compatible with original [darknet](https://pjreddie.com/darknet/) *.cfg models (⚠️ no longer maintained). 
-```bash
-$ git clone -b archive https://github.com/ultralytics/yolov3  # archive branch
-```
+## 개요(Outline)
+--- 
 
-<img src="https://user-images.githubusercontent.com/26833433/100382066-c8bc5200-301a-11eb-907b-799a0301595e.png" width="1000">** GPU Speed measures end-to-end time per image averaged over 5000 COCO val2017 images using a V100 GPU with batch size 32, and includes image preprocessing, PyTorch FP16 inference, postprocessing and NMS. EfficientDet data from [google/automl](https://github.com/google/automl) at batch size 8.
-
-
-## Pretrained Checkpoints
-
-| Model | AP<sup>val</sup> | AP<sup>test</sup> | AP<sub>50</sub> | Speed<sub>GPU</sub> | FPS<sub>GPU</sub> || params | FLOPS |
-|---------- |------ |------ |------ | -------- | ------| ------ |------  |  :------: |
-| [YOLOv3](https://github.com/ultralytics/yolov3/releases)      | 43.3   | 43.3     | 63.0     | 4.8ms     | 208     || 61.9M  | 156.4B
-| [YOLOv3-SPP](https://github.com/ultralytics/yolov3/releases)  | **44.3**   | **44.3**     | **64.6**     | 4.9ms     | 204     || 63.0M  | 157.0B
-| [YOLOv3-tiny](https://github.com/ultralytics/yolov3/releases) | 17.6     | 34.9     | 34.9     | **1.7ms**     | **588**     || 8.9M  | 13.3B
-
-** AP<sup>test</sup> denotes COCO [test-dev2017](http://cocodataset.org/#upload) server results, all other AP results denote val2017 accuracy.  
-** All AP numbers are for single-model single-scale without ensemble or TTA. **Reproduce mAP** by `python test.py --data coco.yaml --img 640 --conf 0.001 --iou 0.65`  
-** Speed<sub>GPU</sub> averaged over 5000 COCO val2017 images using a GCP [n1-standard-16](https://cloud.google.com/compute/docs/machine-types#n1_standard_machine_types) V100 instance, and includes image preprocessing, FP16 inference, postprocessing and NMS. NMS is 1-2ms/img.  **Reproduce speed** by `python test.py --data coco.yaml --img 640 --conf 0.25 --iou 0.45`  
-** All checkpoints are trained to 300 epochs with default settings and hyperparameters (no autoaugmentation). 
-** Test Time Augmentation ([TTA](https://github.com/ultralytics/yolov5/issues/303)) runs at 3 image sizes. **Reproduce TTA** by `python test.py --data coco.yaml --img 832 --iou 0.65 --augment` 
-
-## Requirements
-
-Python 3.8 or later with all [requirements.txt](https://github.com/ultralytics/yolov3/blob/master/requirements.txt) dependencies installed, including `torch>=1.7`. To install run:
-```bash
-$ pip install -r requirements.txt
-```
+- 구글플레이 앱스토어 내 'Timberman'이라는 명칭의 모바일 게임에 대하여 게임이미지를 기반으로 게임플레이정책을 학습하는 심층강화학습 모델<br>
+Deep reinforcement learning model that learns game play policies based on game images for mobile games named "Timberman" in the Google Play App Store.
+<br><br>
+- 심층강화학습 학습모델구조인 A2C(Advantage Actor-Critic) 모델을 기초로 하여 A2C 학습모델에 전이학습을 적용하여 학습시킨 T-A2C(Transfer learning based Advantage Actor-Critic) 모델, 비동기적 방법에 기초한 분산강화학습 학습모델구조인 A3C(Asynchronous Actor-Critic) 모델과의 학습능력비교<br>
+Comparison of learning performance between A2C, a deep reinforcement learning model, and T-A2C model, an A2C model applied with Transfer learning, and A3C model, a Distributed deep reinforcement learning model.
 
 
-## Tutorials
+<br><br><br><br><br>
 
-* [Train Custom Data](https://github.com/ultralytics/yolov3/wiki/Train-Custom-Data)&nbsp; 🚀 RECOMMENDED
-* [Weights & Biases Logging](https://github.com/ultralytics/yolov5/issues/1289)&nbsp; 🌟 NEW
-* [Multi-GPU Training](https://github.com/ultralytics/yolov5/issues/475)
-* [PyTorch Hub](https://github.com/ultralytics/yolov5/issues/36)&nbsp; ⭐ NEW
-* [ONNX and TorchScript Export](https://github.com/ultralytics/yolov5/issues/251)
-* [Test-Time Augmentation (TTA)](https://github.com/ultralytics/yolov5/issues/303)
-* [Model Ensembling](https://github.com/ultralytics/yolov5/issues/318)
-* [Model Pruning/Sparsity](https://github.com/ultralytics/yolov5/issues/304)
-* [Hyperparameter Evolution](https://github.com/ultralytics/yolov5/issues/607)
-* [Transfer Learning with Frozen Layers](https://github.com/ultralytics/yolov5/issues/1314)&nbsp; ⭐ NEW
-* [TensorRT Deployment](https://github.com/wang-xinyu/tensorrtx)
+## 개발 환경(Development environment)
+--- 
+
+<table>
+<thead>
+<tr>
+<th>항목(List)</th>
+<th>내용(Content)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <td>하드웨어 개발 환경(HW-Environment)</td>
+    <td>
+    <img src="https://img.shields.io/badge/CPU-i5_6500-0078D6?
+                style=plastic
+                &logo=Windows
+                &logoColor=white"/>
+    <img src="https://img.shields.io/badge/GPU-GTX_1060-44A833?
+                style=plastic
+                &logo=Anaconda
+                &logoColor=white"/>
+    </td>
+</tr>
+<tr>
+    <td>소프트웨어 개발 환경(SW-Environment)</td>
+    <td>
+    <img src="https://img.shields.io/badge/OS-Windows-0078D6?
+                style=plastic
+                &logo=Windows
+                &logoColor=white"/>
+    <img src="https://img.shields.io/badge/ENV-Anaconda-44A833?
+                style=plastic
+                &logo=Anaconda
+                &logoColor=white"/>
+    </td>
+</tr>
+<tr>
+    <td>개발 언어(Language)</td>
+    <td>
+    <img src="https://img.shields.io/badge/LANG-Python-3776AB?
+                style=plastic
+                &logo=Python
+                &logoColor=white"/>
+    </td>
+</tr>
+<tr>
+    <td>라이브러리(Library)</td>
+    <td>
+    <img src="https://img.shields.io/badge/DL-PyTorch-EE4C2C?
+                style=plastic
+                &logo=PyTorch
+                &logoColor=white"/> 
+    <img src="https://img.shields.io/badge/DL-NumPy-013243?
+                style=plastic
+                &logo=NumPy
+                &logoColor=white"/>
+    <img src="https://img.shields.io/badge/IMG_PROCESS-OpenCV-5C3EE8?
+                style=plastic
+                &logo=OpenCV
+                &logoColor=white"/>
+    </td>
+</tr>
+<tr>
+    <td>보조(외부) 프로그램(External program)</td>
+    <td>
+    <img src="https://img.shields.io/badge/Web_Cam-ManyCam-00CEC8?
+                style=plastic
+                &logo=ManyCam
+                &logoColor=white"/>
+    </td>
+</tr>
+</tbody>
+</table>
+
+<br><br><br><br><br>
+
+## 시연영상(Demonstration video)
+--- 
+
+![시연영상_1](.\ReadMe\설계변환후_1.gif "시연영상_1")
+![시연영상_2](.\ReadMe\설계변환후_2.gif "시연영상_2")
+
+<br><br><br><br><br>
+
+## 구조(Structure)
+--- 
+
+### 학습모델 구조도(학습모델의 반복학습 절차)
+### Structure diagram of learning model (repeated learning procedure of learning model)
+![A2C,T-A2C모델구조](.\ReadMe\A2C,T-A2C모델구조.jpg "A2C,T-A2C모델구조")
+
+<ol>
+    1. 상태추출 : S_t >> 현재상태 추출<br>
+    2. 행동추출 및 실행 : A_t >> 선택 가능한 행동 중 택 1<br>
+    3. 보상, 다음상태 추출
+    <ol>
+        3-1. 보상획득 : R_t+1 >> 행동에 대한 결과로 보상 획득 >> 학습 <br>
+        3-2. 다음상태추출 : S_t+1 >> 행동에 대한 결과로 나타난 다음상태 추출<br>
+    </ol>
+</ol>
+
+<br><br><br><br><br>
+
+### 보상함수 구조도
+### Structure diagram of the reward function
+![보상함수](.\ReadMe\보상함수.gif "보상함수")
+<ol>
+    1. 기본 보상(Basic)<br>
+    <ul>
+        행동에 따라 생존 시 → +0.5 수여<br>
+        행동에 따라 사망 시 → -1 수여<br>
+    </ul><br>
+    2. 인센티브 보상(Incentive)<br>
+    <ul>
+        위험상태(장애물 인접상태)에서 행동에 따라 생존 시 → +0.5 수여<br>
+    </ul>
+</ol>
 
 
-## Environments
+<br><br><br><br><br>
 
-YOLOv3 may be run in any of the following up-to-date verified environments (with all dependencies including [CUDA](https://developer.nvidia.com/cuda)/[CUDNN](https://developer.nvidia.com/cudnn), [Python](https://www.python.org/) and [PyTorch](https://pytorch.org/) preinstalled):
+## 구현(Implementation)
+---
 
-- **Google Colab Notebook** with free GPU: <a href="https://colab.research.google.com/github/ultralytics/yolov3/blob/master/tutorial.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a>
-- **Kaggle Notebook** with free GPU: [https://www.kaggle.com/ultralytics/yolov3](https://www.kaggle.com/ultralytics/yolov3)
-- **Google Cloud** Deep Learning VM. See [GCP Quickstart Guide](https://github.com/ultralytics/yolov3/wiki/GCP-Quickstart) 
-- **Docker Image** https://hub.docker.com/r/ultralytics/yolov3. See [Docker Quickstart Guide](https://github.com/ultralytics/yolov3/wiki/Docker-Quickstart) ![Docker Pulls](https://img.shields.io/docker/pulls/ultralytics/yolov3?logo=docker)
+### 프로그램 흐름도(Flow chart)
 
+![프로그램흐름도](.\ReadMe\프로그램흐름도.jpg "프로그램흐름도")
 
-## Inference
+<ol>
+    1. 상태 추출<br>
+    <ol>
+        1-1. 현재상태 데이터(게임이미지 : Webcam Real-Time Image Stream) >> 분류 신경망(실시간 객체탐지기 : YOLOv3)<br>
+        1-2. 현재상태 전처리 데이터 >> 심층강화학습 신경망(A2C/T-A2C/A3C) 입력<br>
+    </ol><br>
+    2. 행동 추출(심층강화학습 신경망 출력) 및 실행(게임 내 입력)<br><br>
+    3. 보상, 다음상태 데이터<br>
+    <ol>
+        3-1. 보상 데이터(상태 입력 : 보상함수 출력) >> 심층강화학습 신경망 업데이트<br>
+        3-2. 다음상태 데이터 >> 현재상태 데이터로서 처리(반복)<br>
+    </ol><br>
+</ol>
 
-detect.py runs inference on a variety of sources, downloading models automatically from the [latest YOLOv3 release](https://github.com/ultralytics/yolov3/releases) and saving results to `runs/detect`.
-```bash
-$ python detect.py --source 0  # webcam
-                            file.jpg  # image 
-                            file.mp4  # video
-                            path/  # directory
-                            path/*.jpg  # glob
-                            rtsp://170.93.143.139/rtplive/470011e600ef003a004ee33696235daa  # rtsp stream
-                            rtmp://192.168.1.105/live/test  # rtmp stream
-                            http://112.50.243.8/PLTV/88888888/224/3221225900/1.m3u8  # http stream
-```
+<br><br><br><br><br>
 
-To run inference on example images in `data/images`:
-```bash
-$ python detect.py --source data/images --weights yolov3.pt --conf 0.25
+## 특징점(Development feature)
+---
 
-Namespace(agnostic_nms=False, augment=False, classes=None, conf_thres=0.25, device='', exist_ok=False, img_size=640, iou_thres=0.45, name='exp', project='runs/detect', save_conf=False, save_txt=False, source='data/images/', update=False, view_img=False, weights=['yolov3.pt'])
-Using torch 1.7.0+cu101 CUDA:0 (Tesla V100-SXM2-16GB, 16130MB)
+### 상태도메인 축소(State domain reduction)
+![상태3진화_1](.\ReadMe\상태3진화_1.jpg "상태3진화_1")
+![상태3진화_2](.\ReadMe\상태3진화_2.jpg "상태3진화_2")
 
-Downloading https://github.com/ultralytics/yolov3/releases/download/v1.0/yolov3.pt to yolov3.pt... 100% 118M/118M [00:05<00:00, 24.2MB/s]
+- 상태 표현 3진화에 따라 상태도메인 축소<br><br>
+- 변경 전(픽셀 수 = 900x1600 = 1,440,000개) → 변경 후(층계 별 장애물 정보 = 6개)
 
-Fusing layers... 
-Model Summary: 261 layers, 61922845 parameters, 0 gradients
-image 1/2 /content/yolov3/data/images/bus.jpg: 640x480 4 persons, 1 buss, Done. (0.014s)
-image 2/2 /content/yolov3/data/images/zidane.jpg: 384x640 2 persons, 3 ties, Done. (0.014s)
-Results saved to runs/detect/exp
-Done. (0.133s)
-```
-<img src="https://user-images.githubusercontent.com/26833433/100375993-06b37900-300f-11eb-8d2d-5fc7b22fbfbd.jpg" width="500">  
+<br><br><br>
 
-### PyTorch Hub
+### 전이학습 적용(Transfer learning application)
+![전이학습](.\ReadMe\전이학습.jpg "전이학습")
 
-To run **batched inference** with YOLO3 and [PyTorch Hub](https://github.com/ultralytics/yolov5/issues/36):
-```python
-import torch
-from PIL import Image
+- 본 게임 환경과 유사한 코드 레벨 가상 환경 모듈에 대해 사전 학습 1000회 수행<br><br>
+- 사전 학습을 수행함으로써 초기 유리한 가중치 설정 및 궁극적인 학습 성능 향상 도모
 
-# Model
-model = torch.hub.load('ultralytics/yolov3', 'yolov3', pretrained=True).autoshape()  # for PIL/cv2/np inputs and NMS
+<br><br><br>
 
-# Images
-img1 = Image.open('zidane.jpg')
-img2 = Image.open('bus.jpg')
-imgs = [img1, img2]  # batched list of images
+### 분산강화학습 적용(Distributed reinforcement learning application)
+![A3C모델구조](.\ReadMe\A3C모델구조.jpg "A3C모델구조")
 
-# Inference
-prediction = model(imgs, size=640)  # includes NMS
-```
+- 다개체 기반 학습모델 알고리즘(A3C)를 활용한 분산강화학습을 통해 궁극적인 학습 성능 향상 도모<br><br>
+- 멀티 에이전트 모델의 반복학습 절차
+<ol>
+    1. (워커 에이전트)샘플 추출 : T_n >> 현재(n차) 에피소드 데이터(Trajectory) 추출 >> 글로벌 네트워크로 전송<br>
+    2. (글로벌 네트워크)비동기적 학습 : 다개체의 워커에이전트로부터 비동기적으로 추출된 샘플 학습 >> 학습 가중치 정보 역전송<br>
+    3. (워커 에이전트)학습 : 글로벌 네트워크로부터 받은 학습 가중치 정보를 기반으로 학습
+</ol>
 
 
-## Training
+<br><br><br><br><br>
 
-Download [COCO](https://github.com/ultralytics/yolov3/blob/master/data/scripts/get_coco.sh) and run command below. Training times for YOLOv3/YOLOv3-SPP/YOLOv3-tiny are 6/6/2 days on a single V100 (multi-GPU times faster). Use the largest `--batch-size` your GPU allows (batch sizes shown for 16 GB devices).
-```bash
-$ python train.py --data coco.yaml --cfg yolov3.yaml --weights '' --batch-size 24
-                                         yolov3-spp.yaml                       24
-                                         yolov3-tiny.yaml                      64
-```
-<img src="https://user-images.githubusercontent.com/26833433/100378028-af170c80-3012-11eb-8521-f0d2a8d021bc.png" width="900">
+## 학습성능 및 실험결과(Learning performance and Experimental results)
+---
 
+![T-A2C성능](.\ReadMe\T-A2C성능.jpg "T-A2C성능")
+### A2C / T-A2C 모델 간 성능 비교(Learning performance comparison between A2C and T-A2C)
+<ol>
+    1. 액터 신경망
+    <ol>
+    가. 초기 : +2.399 → -0.6035(79.9%)<br>
+    나. 최종 : -0.8986 → -1.379(34.8%)<br>
+    </ol><br>
+    2. 크리틱 신경망
+    <ol>
+    가. 초기 : +14.51 → +1.437(90.1%)<br>
+    나. 최종 : +0.9469 → +0.7643(19.3%)<br>
+    </ol><br>
+    3. 누적 보상
+    <ol>
+    가. 최종 : +0.8096 → +10.27(21.2%)<br>
+    </ol>
+</ol>
 
-## Citation
+<br><br><br>
 
-[![DOI](https://zenodo.org/badge/146165888.svg)](https://zenodo.org/badge/latestdoi/146165888)
+![A3C성능](.\ReadMe\A3C성능.jpg "A3C성능")
+### A2C / A3C 모델 간 성능 비교(Learning performance comparison between A2C and A3C)
+<ol>
+    1. 액터 신경망
+    <ol>
+    가. 최종 : -0.8986 → -3.674(75.5%)<br>
+    </ol><br>
+    2. 크리틱 신경망
+    <ol>
+    가. 최종 : +0.9469 → +0.9329(1.5%)<br>
+    </ol><br>
+    3. 누적 보상
+    <ol>
+    가. 최종 : +0.8096 → +12.75(36.5%)<br>
+    </ol>
+</ol>
 
+<br><br><br>
 
-## About Us
+![실험결과](.\ReadMe\실험결과.jpg "실험결과")
+### 모델 별 10회 실험결과(Result of 10 experiments per model)
+- A3C 모델의 10회 실험 간 취득점수 기댓값 : 174점<br><br>
+- T-A2C 모델의 10회 실험 간 취득점수 기댓값 : 173.5점<br><br>
+- A2C 모델의 10회 실험 간 취득점수 기댓값 : 146점<br>
+** 일부 시도에서 학습 성능 불안정성에 따라 낮은 점수를 기록
 
-Ultralytics is a U.S.-based particle physics and AI startup with over 6 years of expertise supporting government, academic and business clients. We offer a wide range of vision AI services, spanning from simple expert advice up to delivery of fully customized, end-to-end production solutions, including:
-- **Cloud-based AI** systems operating on **hundreds of HD video streams in realtime.**
-- **Edge AI** integrated into custom iOS and Android apps for realtime **30 FPS video inference.**
-- **Custom data training**, hyperparameter evolution, and model exportation to any destination.
-
-For business inquiries and professional support requests please visit us at https://www.ultralytics.com. 
-
-
-## Contact
-
-**Issues should be raised directly in the repository.** For business inquiries or professional support requests please visit https://www.ultralytics.com or email Glenn Jocher at glenn.jocher@ultralytics.com. 
+<br><br><br><br><br>
