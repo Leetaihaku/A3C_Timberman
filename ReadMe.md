@@ -2,7 +2,7 @@
 # 모바일 게임플레이 행동 정책 학습을 위한 YOLOv3 기반 강화학습(YOLOv3 based Reinforcement learning for Mobile game playing policy)
 ## 정보(Information)
 
-- 대한전기학회 논문지 게재(논문번호 : 2021-D-CA-0062) (2021.12)<br>
+- 대한전기학회 논문지 게재(논문번호 : 2021-D-CA-0062) (2022.01)<br>
 The paper of the Korean Institute of Electrical Engineers(KIEE) was published (Paper number: 2021-D-CA-0062) (Dec, 2021.)
 <br><br>
 - 대한전자공학회 추계학술대회 학부생논문경진부문 장려상 수상 (2021.11)<br>
